@@ -39,6 +39,7 @@ public class Bicicleta {
 
     public void removeUso(Uso uso) {
         usos.remove(uso);
-        uso.setBicicleta(null);
     }
+
+    //Cuando se pone el orphanRemoval no hace falta setear a null en el remove ya que se elimina directamente.
 }

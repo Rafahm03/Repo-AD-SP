@@ -26,20 +26,17 @@ public class Estacion {
     private String coordenadas;
     private int capacidad;
 
-    @OneToMany(mappedBy = "estacion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "estacion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Bicicleta> bicicletas = new ArrayList<>();
 
-    // Método auxiliar para agregar una bicicleta a la estación
     public void addBicicleta(Bicicleta bicicleta) {
         bicicletas.add(bicicleta);
-        bicicleta.setEstacion(this); // Sincroniza la relación inversa
+        bicicleta.setEstacion(this);
     }
 
-    // Método auxiliar para eliminar una bicicleta de la estación
     public void removeBicicleta(Bicicleta bicicleta) {
         bicicletas.remove(bicicleta);
-        bicicleta.setEstacion(null); // Rompe la relación inversa
     }
 
     @Override
