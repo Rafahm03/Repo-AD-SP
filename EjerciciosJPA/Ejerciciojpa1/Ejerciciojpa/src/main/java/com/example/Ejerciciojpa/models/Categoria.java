@@ -1,5 +1,6 @@
 package com.example.Ejerciciojpa.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -25,7 +26,24 @@ public class Categoria {
 
     @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
     @Builder.Default
+    @ToString.Exclude
+    //@JsonManagedReference
     private List<Producto> productos = new ArrayList<>();
+
+
+
+    //Metodos helers
+
+    public void addProducto(Producto producto) {
+        producto.setCategoria(this);
+        this.getProductos().add(producto);
+    }
+
+
+    public void removeProducto(Producto producto) {
+        this.getProductos().remove(producto);
+        producto.setCategoria(null);
+    }
 
     @Override
     public final boolean equals(Object o) {
@@ -42,4 +60,8 @@ public class Categoria {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.Ejerciciojpa.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -32,6 +33,7 @@ public class Producto {
     @ManyToOne
     @JoinColumn(name = "categoria_id",
             foreignKey = @ForeignKey(name = "fk_producto_categoria"))
+    //@JsonManagedReference
     private Categoria categoria;
 
 

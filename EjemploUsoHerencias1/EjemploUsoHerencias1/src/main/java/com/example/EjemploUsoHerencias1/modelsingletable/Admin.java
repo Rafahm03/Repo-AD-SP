@@ -3,17 +3,15 @@ package com.example.EjemploUsoHerencias1.modelsingletable;
 import jakarta.persistence.Entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
+@SuperBuilder
 @ToString
 public class Admin extends Usuario{
-    public Admin(Long id, String fullName, String username) {
-        super(id, fullName, username);
-    }
+
 
 }

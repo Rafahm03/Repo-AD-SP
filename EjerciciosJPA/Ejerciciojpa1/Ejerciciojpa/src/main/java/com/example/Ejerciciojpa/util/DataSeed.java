@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +23,10 @@ public class DataSeed {
     public void run() {
 
         Categoria c = categoriaRepository.getReferenceById(1L);
+        Optional<Producto> op = productoRepository.findById(1L);
+
+
+        //No usar el orElse, mejor devolver un optional
 
         Producto p = Producto.builder()
                 .nombre("Un producto")
@@ -30,8 +35,10 @@ public class DataSeed {
                 .categoria(c)
                 .build();
 
-
         productoRepository.save(p);
+
+
+        c.addProducto(p);
 
         Producto p2 = Producto.builder()
                 .nombre("Otro producto")
@@ -42,7 +49,11 @@ public class DataSeed {
 
         productoRepository.saveAll(List.of(p, p2));
 
+        System.out.println("Productos de la categoría");
+        System.out.println(productoRepository.findAll());
 
+
+        Categoria c2 = categoriaRepository.getReferenceById(2L);
     }
 
 }

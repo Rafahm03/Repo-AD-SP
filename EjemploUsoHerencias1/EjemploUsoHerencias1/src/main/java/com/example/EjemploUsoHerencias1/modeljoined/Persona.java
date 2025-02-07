@@ -3,13 +3,14 @@ package com.example.EjemploUsoHerencias1.modeljoined;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @ToString

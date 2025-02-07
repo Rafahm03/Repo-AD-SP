@@ -32,17 +32,15 @@ public class MainDeMentira {
     @PostConstruct
     public void run() {
         //Cargamos datod de prueba para la herencia MappedSuperClass
-        Producto producto1 = new Producto(1L, "Producto A", "Descripción del Producto A");
-        Producto producto2 = new Producto(2L, "Producto B", "Descripción del Producto B");
+       /* Producto producto1 = Producto.builder().nombre("Producto A").descripcion("Descripción del Producto A").build();
+        Producto producto2 = Producto.builder().nombre("Producto B").descripcion("Descripción del Producto B").build();**/
 
-        productoRepository.save(producto1);
-        productoRepository.save(producto2);
 
-        Monitor monitor1 = new Monitor(producto1.getId(), "Monitor X", "Monitor de alta calidad", "LCD", "Modelo 2025");
-        Monitor monitor2 = new Monitor(producto2.getId(), "Monitor Y", "Monitor gaming", "OLED", "Modelo PRO");
+        Monitor monitor1 = Monitor.builder().modelo("Modelo 2025").tipoPantalla("LCD").build();
+        Monitor monitor2 = Monitor.builder().modelo("Modelo PRO").tipoPantalla("OLED").build();
 
-        monitorRepository.save(monitor1);
-        monitorRepository.save(monitor2);
+        productoRepository.save(monitor1);
+        productoRepository.save(monitor2);
 
         System.out.println("Mostramos objetos");
         productoRepository.findAll().forEach(System.out::println);
@@ -50,14 +48,14 @@ public class MainDeMentira {
 
         //Cargamos datos de prueba para la herencia Joined
 
-        Persona persona1 = new Persona(3L, "Luismi", " López Magaña");
-        Persona persona2 = new Persona(4L, "Ángel", "Naranjo Martinez");
+        Persona persona1 = Persona.builder().nombre("Luismi").apellido(" López Magaña").build();
+        Persona persona2 = Persona.builder().nombre("Ángel").apellido("Naranjo Martinez").build();
 
         personaRepository.save(persona1);
         personaRepository.save(persona2);
 
-        Profesor profesor1 = new Profesor(persona1.getId(), persona1.getNombre(), persona1.getApellido(), "Acceso a datos", "DAM");
-        Profesor profesor2 = new Profesor(persona2.getId(), persona2.getNombre(), persona2.getApellido(), "Programación", "DAM");
+        Profesor profesor1 = Profesor.builder().asignatura("Acceso a datos").departamento("DAM").build();
+        Profesor profesor2 = Profesor.builder().asignatura("Programación").departamento("DAM").build();
 
         profesorRepository.save(profesor1);
         profesorRepository.save(profesor2);
@@ -68,14 +66,14 @@ public class MainDeMentira {
 
         //Cargamos datos de prueba para la herencia Single Table
 
-        Usuario usuario1 = new Usuario(5L, "Rafa Hernández Meléndez", "Rafahm03");
-        Usuario usuario2 = new Usuario(6L, "Carlos Ruiz López", "TuCarlitosSevillista04");
+        Usuario usuario1 =Usuario.builder().fullName("Rafa Hernández Meléndez").username("Rafahm03").build();
+        Usuario usuario2 =Usuario.builder().fullName("Carlos Ruiz López").username("TuCarlitosSevillista04").build();
 
         usuarioRepository.save(usuario1);
         usuarioRepository.save(usuario2);
 
-        Admin admin1 = new Admin(usuario1.getId(), usuario1.getFullName(), usuario2.getUsername());
-        Cliente cliente1 = new Cliente(usuario2.getId(), usuario2.getFullName(), usuario2.getUsername(), "+34 738234234");
+        Admin admin1 =  Admin.builder().build();
+        Cliente cliente1 = Cliente.builder().telefono("+34 3567235786").build();
 
         adminRepository.save(admin1);
         clienteRepository.save(cliente1);

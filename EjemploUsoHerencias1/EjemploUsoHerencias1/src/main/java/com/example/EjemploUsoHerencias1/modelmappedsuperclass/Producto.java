@@ -2,14 +2,14 @@ package com.example.EjemploUsoHerencias1.modelmappedsuperclass;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @ToString
+@SuperBuilder
 @MappedSuperclass
 public class Producto {
     @Id

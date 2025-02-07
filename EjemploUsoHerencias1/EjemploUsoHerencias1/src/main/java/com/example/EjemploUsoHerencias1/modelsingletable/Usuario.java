@@ -2,14 +2,15 @@ package com.example.EjemploUsoHerencias1.modelsingletable;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
+@SuperBuilder
 @ToString
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Usuario {

@@ -2,13 +2,14 @@ package com.example.EjemploUsoHerencias1.modelsingletable;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
+@SuperBuilder
 @ToString
 public class Cliente extends Usuario {
     private String telefono;

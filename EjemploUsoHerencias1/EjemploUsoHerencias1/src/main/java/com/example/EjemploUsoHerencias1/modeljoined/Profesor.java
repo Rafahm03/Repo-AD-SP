@@ -2,12 +2,13 @@ package com.example.EjemploUsoHerencias1.modeljoined;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @ToString(callSuper = true)
 public class Profesor extends Persona {
