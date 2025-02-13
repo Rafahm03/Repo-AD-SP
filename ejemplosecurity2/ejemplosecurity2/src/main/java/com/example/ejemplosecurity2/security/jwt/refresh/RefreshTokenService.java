@@ -1,31 +1,36 @@
-package com.example.ejemplosecurity2.security.jwt.access.refresh;
+package com.example.ejemplosecurity2.security.jwt.refresh;
 
 import com.example.ejemplosecurity2.user.model.User;
-import jakarta.transaction.Transactional;
+import com.example.ejemplosecurity2.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional(readOnly=true)
+@Transactional(readOnly=true)
 public class RefreshTokenService {
+
     private final RefreshTokenRepository refreshTokenRepository;
+    private final UserRepository userRepository;
 
     @Value("${jwt.refresh.duration}")
     private int durationInMinutes;
 
-    public RefreshToken created (User user){
+    @Transactional
+    public RefreshToken create(User user) {
+        //User u = userRepository.findById(user.getId()).orElse(null);
         return refreshTokenRepository.save(
-                RefreshToken.builder(
+                RefreshToken.builder()
                         .user(user)
+                        //.user(u)
                         .token(UUID.randomUUID().toString())
-                        .expireAt(Instant.now().plusSeconds())
+                        .expireAt(Instant.now().plusSeconds(durationInMinutes*60))
                         .build()
-                );
-        )
+        );
     }
 }

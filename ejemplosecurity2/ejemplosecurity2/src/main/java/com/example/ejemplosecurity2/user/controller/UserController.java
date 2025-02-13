@@ -1,6 +1,8 @@
 package com.example.ejemplosecurity2.user.controller;
 
 import com.example.ejemplosecurity2.security.jwt.access.JwtService;
+import com.example.ejemplosecurity2.security.jwt.refresh.RefreshToken;
+import com.example.ejemplosecurity2.security.jwt.refresh.RefreshTokenService;
 import com.example.ejemplosecurity2.user.dto.CreateUserRequest;
 import com.example.ejemplosecurity2.user.dto.LoginRequest;
 import com.example.ejemplosecurity2.user.dto.UserResponse;
@@ -26,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/auth/register")
     public ResponseEntity<UserResponse> register(@RequestBody CreateUserRequest createUserRequest) {
@@ -53,8 +56,11 @@ public class UserController {
 
         String accessToken = jwtService.generateAccessToken(user);
 
+        // Generar el token de refresco
+        RefreshToken refreshToken = refreshTokenService.create(user);
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(UserResponse.of(user, accessToken));
+                .body(UserResponse.of(user, accessToken, refreshToken.getToken()));
 
     }
 
@@ -64,7 +70,7 @@ public class UserController {
     }
 
     @GetMapping("/me/admin")
-    public UserResponse adminMe(@AuthenticationPrincipal User user){
+    public User adminMe(@AuthenticationPrincipal User user) {
         return user;
     }
 

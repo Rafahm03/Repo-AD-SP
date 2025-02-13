@@ -1,5 +1,6 @@
 package com.example.ejemplosecurity2.security.jwt.access;
 
+import com.example.ejemplosecurity2.security.errorexceptionhandling.JwtException;
 import com.example.ejemplosecurity2.user.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -12,7 +13,6 @@ import javax.crypto.SecretKey;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -40,7 +40,6 @@ public class JwtService {
         jwtParser = Jwts.parser()
                 .verifyWith(secretKey)
                 .build();
-
     }
 
     public String generateAccessToken(User user) {
@@ -62,15 +61,12 @@ public class JwtService {
                 .expiration(tokeExpirationDate)
                 .signWith(secretKey)
                 .compact();
-
-
     }
 
     public UUID getUserIdFromAccessToken(String token) {
         String sub = jwtParser.parseClaimsJws(token).getBody().getSubject();
         return UUID.fromString(sub);
     }
-
 
     public boolean validateAccessToken(String token) {
 

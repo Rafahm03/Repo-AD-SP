@@ -1,4 +1,4 @@
-package com.example.ejemplosecurity2.security.jwt.access.refresh;
+package com.example.ejemplosecurity2.security.jwt.refresh;
 
 import com.example.ejemplosecurity2.user.model.User;
 import jakarta.persistence.*;
@@ -15,12 +15,14 @@ import java.util.UUID;
 @Setter
 @Builder
 public class RefreshToken {
+
     @Id
+    @GeneratedValue
     private UUID id;
 
-    @MapsId
+    //@MapsId
     @OneToOne
-    @JoinColumn(name="user_id", columnDefinition = "uuid")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NaturalId
@@ -32,4 +34,5 @@ public class RefreshToken {
 
     @Builder.Default
     private Instant createdAt = Instant.now();
+
 }

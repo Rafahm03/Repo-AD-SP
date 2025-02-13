@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class CreateUserRequest {
-    private String username;
-    private String password;
-    private String verifyPassword;
+
+public record CreateUserRequest(
+    String username,
+     String password,
+     String verifyPassword
     //private String avatar;
     //private String fullName;
+){
 
 }

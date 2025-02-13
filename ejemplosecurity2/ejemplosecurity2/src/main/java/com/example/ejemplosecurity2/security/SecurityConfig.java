@@ -1,6 +1,7 @@
 package com.example.ejemplosecurity2.security;
 
 
+import com.example.ejemplosecurity2.security.errorexceptionhandling.JwtAccessDeniedHandler;
 import com.example.ejemplosecurity2.security.errorexceptionhandling.JwtAuthenticationEntryPoint;
 import com.example.ejemplosecurity2.security.jwt.access.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -8,16 +9,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -29,7 +29,8 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -54,6 +55,7 @@ public class SecurityConfig {
 
     }
 
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -61,13 +63,13 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults());
         http.sessionManagement((session) -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.exceptionHandling((excepz -> excepz
+        http.exceptionHandling(excepz -> excepz
                 .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler()
-        ));
+                .accessDeniedHandler(accessDeniedHandler)
+        );
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login").permitAll()
-
+                .requestMatchers("/me/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
 
