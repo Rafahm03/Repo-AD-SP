@@ -63,4 +63,9 @@ public class UserController {
         return UserResponse.of(user);
     }
 
+    @GetMapping("/me/admin")
+    public UserResponse adminMe(@AuthenticationPrincipal User user){
+        return user;
+    }
+
 }

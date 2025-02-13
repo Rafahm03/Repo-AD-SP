@@ -10,6 +10,7 @@ public record UserResponse(
         String username,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String token
+        @JsonInclude(JsonInclude.Include.)
 ) {
 
     public static UserResponse of (User user) {

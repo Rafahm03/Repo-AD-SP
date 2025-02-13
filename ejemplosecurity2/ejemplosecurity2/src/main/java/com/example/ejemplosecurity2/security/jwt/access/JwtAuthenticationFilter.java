@@ -32,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Validar el token
         // Si es válido, autenticar al usuario
+        try{
 
         if (StringUtils.hasText(token) && jwtService.validateAccessToken(token)) {
 
@@ -58,6 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             }
 
+        }
+    } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
         filterChain.doFilter(request, response);
