@@ -34,16 +34,18 @@ public class JwtService {
 
     @PostConstruct
     public void init() {
+
         secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-        jwtParser = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        jwtParser = Jwts.parser()
+                .verifyWith(secretKey)
                 .build();
+
     }
 
     public String generateAccessToken(User user) {
 
-        Date tokenExpirationDate =
+        Date tokeExpirationDate =
                 Date.from(
                         LocalDateTime
                                 .now()
@@ -53,12 +55,15 @@ public class JwtService {
                 );
 
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, TOKEN_TYPE)
-                .setSubject(user.getId().toString())
-                .setIssuedAt(new Date())
-                .setExpiration(tokenExpirationDate)
+                .header().type(TOKEN_TYPE)
+                .and()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(tokeExpirationDate)
                 .signWith(secretKey)
                 .compact();
+
+
     }
 
     public UUID getUserIdFromAccessToken(String token) {
@@ -66,12 +71,15 @@ public class JwtService {
         return UUID.fromString(sub);
     }
 
+
     public boolean validateAccessToken(String token) {
+
         try {
             jwtParser.parseClaimsJws(token);
             return true;
-        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+        } catch(SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             throw new JwtException(ex.getMessage());
         }
+
     }
 }
